@@ -1,0 +1,5 @@
+INDEX VERSION 1.4+D:\Cred-wrk\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+217283149.index
+1682453239.index
+3347079242.index
+3049312641.index

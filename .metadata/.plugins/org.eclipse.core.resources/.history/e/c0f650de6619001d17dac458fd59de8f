@@ -1,0 +1,94 @@
+package com.cruds;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class Controlrcls {
+	AnnotationConfigApplicationContext ai=new AnnotationConfigApplicationContext(BikeDao.class);
+	AnnotationConfigApplicationContext aei=new AnnotationConfigApplicationContext(UsersDao.class);
+	@RequestMapping("/showfrm")
+	public ModelAndView showfrm() {
+		ModelAndView mn=new ModelAndView();
+		mn.setViewName("addform.jsp");
+		return mn;
+	}
+	@RequestMapping("/updfrm")
+	public ModelAndView updfrm() {
+		ModelAndView mup=new ModelAndView();	
+		mup.setViewName("updatefrm.jsp");
+		return mup;
+	}
+	@PostMapping("/addfrm")
+	public ModelAndView addbik(@RequestParam("nem")String nm,@RequestParam("m1")String mo,@RequestParam("m2")int mil) {
+		ModelAndView mi=new ModelAndView();
+		BikeDao ba=ai.getBean("bikeDao",BikeDao.class);
+		ba.addbik(nm, mo, mil);
+		mi.setViewName("/showlist");
+		return mi;
+	}
+	@RequestMapping("/showlist")
+	public ModelAndView showlst(Model mod) {
+		BikeDao bs=ai.getBean("bikeDao",BikeDao.class);
+		ModelAndView ml=new ModelAndView();
+		List<Bikes> bk=bs.getlist();
+		for(Bikes bl:bk) {
+			System.out.println(bl);
+		}
+		ml.addObject("bik",bk);
+		ml.setViewName("showlist.jsp");
+		return ml;
+	}
+	@RequestMapping("/delete")
+	public ModelAndView delet(@RequestParam("dele")int del) {
+		ModelAndView md=new ModelAndView();
+		BikeDao bd= ai.getBean("bikeDao",BikeDao.class);
+		bd.delt(del);
+		md.setViewName("/showlist");
+		return md;
+	}
+	@RequestMapping("/update")
+	public ModelAndView updatb(@RequestParam("ud")int uid, @RequestParam("nb")String nb,@RequestParam("m2")String mb,@RequestParam("ml2")int mlb) {
+		ModelAndView mu=new ModelAndView();
+		BikeDao bu= ai.getBean("bikeDao",BikeDao.class);
+		bu.updat(uid, nb, mb, mlb);
+		mu.setViewName("/showlist");
+		return mu;
+	}
+	@PostMapping("/reg")
+	public ModelAndView reg(@RequestParam("usr")String nm,@RequestParam("psw")String ps,@RequestParam("em")String em,@RequestParam("sx")String sx){
+		ModelAndView mav=new ModelAndView();
+		UsersDao ui=aei.getBean("usersDao",UsersDao.class);
+		ui.regis(nm, ps, em, sx);
+		mav.setViewName("Login.jsp");
+		return mav;
+	}
+	@PostMapping("/log")
+	public ModelAndView log(@RequestParam("un")String ur,@RequestParam("psd")String pd) {
+		boolean sts;
+		ModelAndView mg=new ModelAndView();
+		UsersDao ud=aei.getBean("usersDao",UsersDao.class);
+		sts=ud.logi(ur, pd);
+		if(sts==true) {
+			mg.setViewName("main.jsp");
+			return mg;
+		}else {
+			mg.setViewName("Reg.jsp");
+			return mg;
+		}
+	
+	}
+}

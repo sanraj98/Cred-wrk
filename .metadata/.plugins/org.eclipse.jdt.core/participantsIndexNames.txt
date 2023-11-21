@@ -1,0 +1,5 @@
+INDEX VERSION 1.131
+D:\Cred-wrk\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\542339513.index
+\Crudem\src\main\resources
+D:\Cred-wrk\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2886791466.index
+\Crudwk\src\main\resources
